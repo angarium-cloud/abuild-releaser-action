@@ -11,6 +11,13 @@ echo "$INPUT_RSA_PRIVATE_KEY" > "$HOME/$GITHUB_REPOSITORY_OWNER.rsa"
 echo "$INPUT_RSA_PUBLIC_KEY" > "$HOME/$GITHUB_REPOSITORY_OWNER.rsa.pub"
 cp "$HOME/$GITHUB_REPOSITORY_OWNER.rsa.pub" /etc/apk/keys
 
+for repo in $(echo $INPUT_EXTRA_REPOSITORIES | tr "," "\n")
+do
+  echo ${repo} >> /etc/apk/repositories
+done
+
+apk update
+
 # Set current directory as a safe directory.
 git config --global --add safe.directory /github/workspace
 ORIGINAL_BRANCH="$(git symbolic-ref --short HEAD)"
@@ -24,7 +31,7 @@ fi
 git checkout --progress --force -B "$GH_PAGES_BRANCH" refs/remotes/origin/"$GH_PAGES_BRANCH"
 
 # Copy current packages.
-mkdir ~/packages
+mkdir -p $REPODEST
 find . -type d -maxdepth 1 -mindepth 1 -not -path '*/.*' -exec cp -rf {} ~/packages/ \;
 git checkout "$ORIGINAL_BRANCH"
 

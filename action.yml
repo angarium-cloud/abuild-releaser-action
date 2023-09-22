@@ -4,7 +4,7 @@ description: |
   repository.
 author: Ivan Valdes Castillo <github@ivan.vc>
 branding:
-  icon: 'archive'
+  icon: "archive"
   color: blue
 inputs:
   author:
@@ -22,13 +22,13 @@ inputs:
     description: The commit message when updating the pages.
   generate_index_pages:
     description: Generate index pages for each directory.
-    default: 'false'
+    default: "false"
   generate_single_index_page:
     description: |
       Generate a single index page for the repository. If neither this nor
       generate_index_pages are selected, then it will not generate any index
       pages, this option takes precedence over generate_index_pages.
-    default: 'true'
+    default: "true"
   index_page_template:
     description: |
       Override the default index page template. Point this to a file that exists
@@ -42,7 +42,11 @@ inputs:
       it can be a glob pattern to allow multiple packages inside a directory. If
       this option is not specified, it will find all of the APKBUILD files in
       the repository.
-    default: '.'
+    default: "."
+  extra_repositories:
+    description: |-
+      Comma-separated or newline-separated list of Apk repositories to add.
+      Useful when depending on packages outside the main repository.
 secrets:
   - GITHUB_TOKEN
 runs:
